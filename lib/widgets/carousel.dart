@@ -1,8 +1,11 @@
+import 'package:delivery_app/models/items.dart';
+import 'package:delivery_app/widgets/item_detail_summary.dart';
 import 'package:flutter/material.dart';
 
 class Carousel extends StatefulWidget {
- const Carousel({super.key, required this.imageList});
+  const Carousel({super.key, required this.imageList, required this.item});
   final List<String> imageList;
+  final Item item;
 
   @override
   State<Carousel> createState() {
@@ -14,7 +17,7 @@ class _CarouselState extends State<Carousel> {
   // List of image URLs or image assets
 
   // PageController to track carousel page index
- final PageController _pageController = PageController();
+  final PageController _pageController = PageController();
 
   int _currentIndex = 0;
 
@@ -36,36 +39,48 @@ class _CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
           // Carousel with image list
-          PageView.builder(
-            controller: _pageController,
-            itemCount: widget.imageList.length,
-            itemBuilder: (context, index) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  widget.imageList[index],
-                  fit: BoxFit.cover,
-                  width: double
-                      .infinity, // Ensures image stretches across the screen
-                ),
-              );
-            },
+          Positioned(
+            top: 0,
+            right: 0,
+            left: 0,
+            height: height * 0.399,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: widget.imageList.length,
+              itemBuilder: (context, index) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.asset(
+                    widget.imageList[index],
+                    fit: BoxFit.cover,
+                    width: double
+                        .infinity, // Ensures image stretches across the screen
+                  ),
+                );
+              },
+            ),
           ),
 
           // Dot indicator for the carousel
           Positioned(
-              bottom: 100, right: 0, left: 0, child: _buildDotIndicator()),
+              bottom: height * 0.686 + 20,
+              right: 0,
+              left: 0,
+              child: buildDotIndicator()),
+
+          ItemDetailSummary(item: widget.item)
         ],
       ),
     );
   }
 
   // Dot indicator widget
-  Widget _buildDotIndicator() {
+  Widget buildDotIndicator() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

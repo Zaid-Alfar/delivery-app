@@ -1,9 +1,11 @@
+import 'package:delivery_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/models/items.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Item_card extends StatelessWidget {
-   const Item_card({super.key, required this.item, required this.onSelectItem});
+  const Item_card({super.key, required this.item, required this.onSelectItem});
   final Item item;
   final Function(Item item) onSelectItem;
   @override
@@ -13,19 +15,19 @@ class Item_card extends StatelessWidget {
         onSelectItem(item);
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
                 clipBehavior: Clip.hardEdge,
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-                child: Image(
-                  image: item.image!,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                child: Image.asset(
+                 item.image!,
                   fit: BoxFit.cover,
-                  width: 177,
+                  width: 177.w,
                   height: 128,
                 )),
             Column(
@@ -33,11 +35,12 @@ class Item_card extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  padding: EdgeInsets.only(top: 5.w, left: 5.w),
                   child: Text(
                     item.name,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
                 ),
@@ -53,7 +56,7 @@ class Item_card extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: Theme.of(context).colorScheme.onPrimary,
                             fontWeight: FontWeight.bold,
-                            fontSize: 22),
+                            fontSize: 22.w),
                       ),
                     ),
                     const SizedBox(
@@ -68,11 +71,11 @@ class Item_card extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 12,
+                SizedBox(
+                  height: 12.w,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: 10.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,21 +83,21 @@ class Item_card extends StatelessWidget {
                       OutlinedButton.icon(
                         onPressed: () {},
                         icon: SvgPicture.asset(
-                          'assets/images/heart.svg', // Replace with your SVG asset path
-                          width: 20, // Adjust width as needed
-                          height: 20, // Adjust height as needed
+                         Assets.images.heart, 
+                          width: 20.w,
+                          height: 20, 
                           alignment: Alignment
-                              .center, // Center the image within the button
+                              .center, 
                         ),
                         label: const Text(""),
                         style: OutlinedButton.styleFrom(
-                          fixedSize: const Size(
-                              78, 40), // Adjust size to fit the SVG image
+                          fixedSize: Size(
+                              78.w, 40), 
                           alignment: Alignment
-                              .center, // Ensures the content (icon) is centered
-                          // Shape of the button (making it squared)
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                              .center, 
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.r)),
                           ),
 
                           side: BorderSide(
@@ -102,37 +105,37 @@ class Item_card extends StatelessWidget {
                                 .colorScheme
                                 .secondary
                                 .withOpacity(0.2),
-                            width: 2,
+                            width: 2.w,
                           ),
 
                           backgroundColor: Colors.transparent,
                           padding: const EdgeInsets.only(
                               left:
-                                  5), // Remove padding to avoid image being off-center
+                                  5), 
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: 10.w,
                       ),
                       TextButton.icon(
                         onPressed: () {},
                         icon: SvgPicture.asset(
-                          'assets/images/shopping-cart.svg', // Set icon color
+                          Assets.images.shoppingCart,
                         ),
                         label: const Text(
-                            ""), // Empty label to keep it just the icon
+                            ""),
                         style: TextButton.styleFrom(
                           backgroundColor: Theme.of(context)
                               .colorScheme
-                              .primary, // Button background color
+                              .primary,
                           padding: EdgeInsets.only(
-                              left:
-                                  5), // Remove padding to ensure the icon is centered
-                          fixedSize: const Size(78,
-                              40), // Ensure the button size is fixed (adjust as needed)
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                10)), // Optional: keeps the button squared if you need it
+                              left: 5
+                                  .w),
+                          fixedSize: Size(78.w,
+                              40),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10
+                                .r)),
                           ),
                         ),
                       ),
