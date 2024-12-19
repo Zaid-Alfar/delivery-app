@@ -15,8 +15,8 @@ class _SimpleSearchBarState extends State<SimpleSearchBar> {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        
-        contentPadding: EdgeInsets.symmetric(vertical: 8 ,horizontal:12 ),
+
+        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         hintStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
         hintText: 'Search', // Shows hint text when the field is empty
         prefixIcon: Icon(Icons.search,
@@ -24,14 +24,17 @@ class _SimpleSearchBarState extends State<SimpleSearchBar> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
-              width: 0),
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+              width: 1),
         ),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide(
-              color: Colors.white, // Set the border color when not focused
-              width: 0, // Border width when not focused
+              color: Theme.of(context)
+                  .colorScheme
+                  .secondary
+                  .withOpacity(0.5), // Set the border color when not focused
+              width: 1, // Border width when not focused
             )),
       ),
     );

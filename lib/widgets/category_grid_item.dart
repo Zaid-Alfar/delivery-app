@@ -1,5 +1,7 @@
 import 'package:delivery_app/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class CategoryGridItem extends StatelessWidget {
   const CategoryGridItem({super.key, required this.category , required this.onSelectCategory});
@@ -16,8 +18,9 @@ class CategoryGridItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(
-              image: category.image,
+            Image.asset(
+              width: 400.w,
+               category.image,
               fit: BoxFit.cover,
             ),
             Padding(

@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:auto_route/auto_route.dart';
+import 'package:delivery_app/models/category.dart';
+import 'package:delivery_app/routes/app_router.dart';
 import 'package:delivery_app/models/items.dart';
 import 'package:delivery_app/widgets/carousel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 
-class ItemDetailsScreen extends StatelessWidget {
+@RoutePage()
+class ItemDetailsScreen extends StatefulWidget {
   const ItemDetailsScreen({
     super.key,
     required this.item,
@@ -14,215 +18,99 @@ class ItemDetailsScreen extends StatelessWidget {
   final Item item;
 
   @override
+  State<ItemDetailsScreen> createState() => _ItemDetailsScreenState();
+}
+
+class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
+  List<Item> _items = [];
+  var _isLoading = true;
+  String? _error;
+
+  void _loadItems() async {
+    final url = Uri.http('localhost:3000', 'items');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode >= 400) {
+        setState(() {
+          _error = "Failed to reterive data please try again later.";
+        });
+      }
+
+      if (response.body == 'null') {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final Map<String, dynamic> decodedResponse = json.decode(response.body);
+      final List<dynamic> listData = decodedResponse['items'];
+      final List<Item> _loadedItem = [];
+
+      for (var item in listData) {
+        _loadedItem.add(Item(
+          name: item['name'],
+          price: item['price'],
+          unit: item['unit'],
+          weight: item['countryOfOrigin'],
+          countryOfOrigin: item['countryOfOrigin'],
+          description: item['description'],
+          imageList: item['imageList'],
+          image: item['image'],
+          category: item['category'],
+        ));
+      }
+
+      setState(() {
+        _items = _loadedItem;
+      });
+    } catch (error) {
+      setState(() {
+        _error = "Something went wrong, please try again later";
+      });
+    }
+  }
+
+  void _selectCategory(BuildContext context, Category category) {
+    final filteritems =
+        _items.where((item) => item.category.contains(category.id)).toList();
+
+    AutoRouter.of(context).push(
+      ItemsRoute(
+        category: category,
+        availableItems: filteritems,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadItems();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
           Positioned(
             top: 0,
+            right: 0,
             left: 0,
             bottom: 0,
-            right: 0,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back)),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            left: 0,
-            child: Container(
-            
-              height: 400,
-              child: Column(
-                children: [
-                  Expanded(
-
-                    child: Carousel(
-                    
-                      imageList: item.imageList,
-                    
-                    ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Carousel(
+                    imageList: widget.item.imageList,
+                    item: widget.item,
                   ),
-                  
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            top: 300,
-            child: Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Text(
-                      item.name,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            "${item.price.toStringAsFixed(2)} ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          "€ / ${item.unit}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.secondary,
-                                letterSpacing: 0,
-                              ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            "~ ${item.weight.round()} ",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          "gr / ${item.unit}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                letterSpacing: 0,
-                              ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      item.countryOfOrigin,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            fontSize: 22,
-                          ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      item.description,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.secondary),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/images/heart.svg',
-                            width: 20,
-                            height: 20,
-                            alignment: Alignment.center,
-                          ),
-                          label: const Text(""),
-                          style: OutlinedButton.styleFrom(
-                            fixedSize: const Size(78, 50),
-                            alignment: Alignment.center,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            side: BorderSide(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondary
-                                  .withOpacity(0.2),
-                              width: 2,
-                            ),
-                            backgroundColor: Colors.transparent,
-                            padding: const EdgeInsets.only(left: 5),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/images/shopping-cart.svg', // Set icon color
-                          ),
-                          label: const Text(
-                            "ADD TO CART",
-                            style: TextStyle(color: Colors.white),
-                          ), // Empty label to keep it just the icon
-                          style: TextButton.styleFrom(
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .primary, // Button background color
-                            padding: const EdgeInsets.only(right: 20, left: 5),
-                            fixedSize: const Size(250, 50),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
                 ),
-              ),
+              ],
             ),
           ),
           Positioned(
@@ -230,7 +118,7 @@ class ItemDetailsScreen extends StatelessWidget {
             left: 10,
             child: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  AutoRouter.of(context).popForced();
                 },
                 icon: Icon(
                   Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,

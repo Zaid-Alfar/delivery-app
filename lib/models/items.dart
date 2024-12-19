@@ -9,7 +9,7 @@ class Item {
   final String countryOfOrigin;
   final List<String> category;
   final String description;
-  final ImageProvider? image; 
+  final String? image; 
   final String? imageUrl;
   final List<String> imageList;
  
