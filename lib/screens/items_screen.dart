@@ -27,6 +27,7 @@ class ItemsScreen extends StatelessWidget {
     void selectMeal(BuildContext context, item) {
       AutoRouter.of(context).push(ItemDetailsRoute(
         item: item,
+
       ));
     }
 
@@ -138,7 +139,7 @@ class ItemsScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ItemsFilter(availableitems: availableItems),
+              child: ItemsFilter(availableItems:  availableItems),
             ),
             const SizedBox(
               height: 25,
