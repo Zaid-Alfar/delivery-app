@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_app/models/category.dart';
 import 'package:delivery_app/models/items.dart';
+
 part 'categories_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
@@ -15,40 +14,49 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     final url = Platform.isAndroid
         ? 'http://10.0.2.2:3000/categories'
         : 'http://localhost:3000/categories';
+
     try {
       final response = await dio.get(url);
+
       if (response.statusCode! >= 400) {
         emit(state.copyWith(
-            error: "Failed to retrive data, please try again later.",
-            isLoading: false));
+          error: "Failed to retrieve data, please try again later.",
+          isLoading: false,
+        ));
         return;
       }
 
+      // Handle null or empty response
       if (response.data == null) {
         emit(state.copyWith(isLoading: false));
         return;
       }
 
-      final Map<String, dynamic> decodedResponse = json.decode(response.data);
-      final List<dynamic> listData = decodedResponse['data'];
+      // Parse the response directly
+      final List<dynamic> listData = response.data['data'];
 
       final List<Category> loadedCategories = listData
           .map(
             (category) => Category(
-                id: category['id'],
-                title: category['title'],
-                image: category['image'],
-                stock: category['stock']),
+              id: category['id'],
+              title: category['title'],
+              image: category['image'],
+              stock: category['stock'],
+            ),
           )
           .toList();
 
       emit(state.copyWith(
-          categories: loadedCategories, isLoading: false, error: null));
+        categories: loadedCategories,
+        isLoading: false,
+        error: null,
+      ));
     } catch (error) {
       if (!isClosed) {
         emit(state.copyWith(
-            error: "Something went wrong, please try again later.",
-            isLoading: false));
+          error: "Something went wrong, please try again later.",
+          isLoading: false,
+        ));
       }
     }
   }
@@ -56,15 +64,18 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   Future<void> loadItems() async {
     final dio = Dio();
     final url = Platform.isAndroid
-      ? 'http://10.0.2.2:3000/items'
-      : 'http://localhost:3000/items';
-        
+        ? 'http://10.0.2.2:3000/items'
+        : 'http://localhost:3000/items';
+
     try {
       final response = await dio.get(url);
+
+
       if (response.statusCode! >= 400) {
         emit(state.copyWith(
-            error: "Failed to retrive data, plase try again later.",
-            isLoading: false));
+          error: "Failed to retrieve data, please try again later.",
+          isLoading: false,
+        ));
         return;
       }
 
@@ -73,8 +84,8 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         return;
       }
 
-      final Map<String, dynamic> decodedResponse = json.decode(response.data);
-      final List<dynamic> listData = decodedResponse['items'];
+
+      final List<dynamic> listData = response.data['items'];
 
       final List<Item> loadedItems = listData.map((item) {
         return Item(
@@ -96,11 +107,12 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         error: null,
       ));
     } catch (error) {
-      if (isClosed) return; // Prevent emitting states if the cubit is closed.
-      emit(state.copyWith(
-        error: "Something went wrong, please try again later.",
-        isLoading: false,
-      ));
+      if (!isClosed) {
+        emit(state.copyWith(
+          error: "Something went wrong, please try again later.",
+          isLoading: false,
+        ));
+      }
     }
   }
 }
