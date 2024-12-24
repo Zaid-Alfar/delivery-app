@@ -1,78 +1,72 @@
+import 'package:delivery_app/cubit/filter_cubit.dart';
+import 'package:delivery_app/gen/assets.gen.dart';
 import 'package:delivery_app/models/items.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ItemsFilter extends StatefulWidget {
-  ItemsFilter({super.key, required this.availableitems});
-  final List<Item> availableitems;
+class ItemsFilter extends StatelessWidget {
+  const ItemsFilter({super.key, required this.availableItems});
+  final List<Item> availableItems;
 
-  @override
-  State<ItemsFilter> createState() => _ItemsFilterState();
-}
-
-class _ItemsFilterState extends State<ItemsFilter> {
-
-
-
-
-
-   Set<int> _selectedIndices = {};
   @override
   Widget build(BuildContext context) {
-    
-   return SizedBox(
-      height: 34,
-      child: ListView.builder(
-        itemCount: widget.availableitems.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          bool isSelected = _selectedIndices.contains(index); // Check if the current index is selected
-
-          return Container(
-            padding: EdgeInsets.only(left: 2),
-            height: 34,
-            child: TextButton.icon(
-              onPressed: () {
-                setState(() {
-                  if (isSelected) {
-                    _selectedIndices.remove(index); // Deselect if it's already selected
-                  } else {
-                    _selectedIndices.add(index); // Select if not already selected
-                  }
-                });
+    return BlocProvider(
+      create: (_) => FilterCubit(),
+      child: SizedBox(
+        height: 34,
+        child: BlocBuilder<FilterCubit, Set<int>>(
+          builder: (context, selectedIndices) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: availableItems.length,
+              itemBuilder: (context, index) {
+                final isSelected = selectedIndices.contains(index);
+                return Padding(
+                  padding:  EdgeInsets.only(left: 2.w),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: 100.w),
+                    child: TextButton.icon(
+                      onPressed: () {
+                        context.read<FilterCubit>().toggleIndex(index);
+                      },
+                      icon: isSelected
+                          ? SvgPicture.asset(
+                              Assets.images.check,
+                              height: 16,
+                            )
+                          : const SizedBox.shrink(),
+                      label: Text(
+                        "${availableItems[index].name} (${availableItems[index].stock})",
+                        style: TextStyle(
+                          color: isSelected
+                              ? Theme.of(context).colorScheme.onSecondary
+                              : Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: isSelected
+                            ? const Color.fromRGBO(226, 203, 255, 1)
+                            : Colors.white,
+                        alignment: Alignment.center,
+                        side: BorderSide(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withOpacity(0.2),
+                        ),
+                        minimumSize: Size(100.w, 34),
+                        padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                      ),
+                    ),
+                  ),
+                );
               },
-              label: Text(
-                widget.availableitems[index].name,
-                style: TextStyle(
-                  color: isSelected
-                      ? Theme.of(context).colorScheme.onSecondary // Text color when selected
-                      : Theme.of(context).colorScheme.secondary, // Text color when not selected
-                ),
-              ),
-              style: TextButton.styleFrom(
-                backgroundColor: isSelected
-                    ? Color.fromRGBO(226, 203, 255, 1) // Background color when selected
-                    : Colors.white, // Background color when not selected
-                alignment: Alignment.center,
-                overlayColor: Theme.of(context).colorScheme.secondary,
-                side: BorderSide(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .secondary
-                      .withOpacity(0.2),
-                ),
-                fixedSize: Size(double.infinity, 34),
-              ),
-              icon: isSelected
-                  ? SvgPicture.asset("assets/images/check.svg")
-                  : SizedBox.shrink(), // No icon when not selected
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
-
-
   }
 }

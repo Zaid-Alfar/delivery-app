@@ -1,17 +1,47 @@
-
-import 'package:delivery_app/screens/navigation_bar.dart';
+import 'package:delivery_app/routes/app_router.dart';
+import 'package:delivery_app/screens/navigation_bar_screen.dart';
 import 'package:delivery_app/theme.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+    (_) {
+      runApp(
+        DevicePreview(
+          enabled: !kReleaseMode,
+          builder: (context) =>  DeliveryApp(), // Wrap your app
+        ),
+      );
+    },
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DeliveryApp extends StatelessWidget {
+   DeliveryApp({super.key});
+
+  final AppRouter _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp( debugShowCheckedModeBanner: false,theme: lightTheme, home: const NavigationBarScreen());
+    return ScreenUtilInit(
+        designSize: const Size(414, 896),
+        minTextAdapt: true,
+        builder: (context, child) {
+          return MaterialApp.router(
+
+            routerConfig: _appRouter.config(),
+             
+              locale: DevicePreview.locale(context),
+              builder: DevicePreview.appBuilder,
+              debugShowCheckedModeBanner: false,
+              theme: lightTheme,
+           );
+        });
   }
 }
