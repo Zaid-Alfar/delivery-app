@@ -98,6 +98,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
           imageList: List<String>.from(item['imageList']),
           image: item['image'],
           category: List<String>.from(item['category']),
+          stock: item['stock']
         );
       }).toList();
 

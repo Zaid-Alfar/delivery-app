@@ -1,16 +1,16 @@
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:delivery_app/gen/assets.gen.dart';
 import 'package:delivery_app/models/category.dart';
 import 'package:delivery_app/models/items.dart';
 import 'package:delivery_app/routes/app_router.dart';
-import 'package:delivery_app/screens/item_details_screen.dart';
+import 'package:delivery_app/widgets/app_scaffold.dart';
 import 'package:delivery_app/widgets/item_card.dart';
 import 'package:delivery_app/widgets/items_filter.dart';
 import 'package:delivery_app/widgets/simple_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()
 class ItemsScreen extends StatelessWidget {
@@ -27,61 +27,46 @@ class ItemsScreen extends StatelessWidget {
     void selectMeal(BuildContext context, item) {
       AutoRouter.of(context).push(ItemDetailsRoute(
         item: item,
-
       ));
     }
 
     Widget itemFilterAppBar = AppBar(
       leading: IconButton(
-        icon: Icon(Platform.isIOS
-            ? Icons.arrow_back_ios
-            : Icons
-                .arrow_back), 
-        color: Theme.of(context)
-            .colorScheme
-            .onPrimary, 
+        icon: Icon(Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back),
+        color: Theme.of(context).colorScheme.onPrimary,
         onPressed: () {
-       
-
-         AutoRouter.of(context).popUntilRoot();
+          AutoRouter.of(context).popUntilRoot();
         },
       ),
       forceMaterialTransparency: true,
-
       backgroundColor: Colors.transparent,
-      
-      elevation: 0, 
+      elevation: 0,
       centerTitle: false,
       flexibleSpace: Stack(
         fit: StackFit.expand,
         children: [
-          
           Positioned(
             bottom: 0,
             right: 0,
             child: SvgPicture.asset(
               height: 220,
               alignment: Alignment.bottomRight,
-              category.title == 'Fruits' 
+              category.title == 'Fruits'
                   ? Assets.images.fruitsSvg
                   : Assets.images.vegetablesSvg,
             ),
           ),
-
-          
           Positioned(
-            bottom: 30, 
+            bottom: 30,
             left: 25,
             child: Text(
-              category.title, 
+              category.title,
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
                     fontWeight: FontWeight.bold,
                   ),
             ),
           ),
-
-          
         ],
       ),
     );
@@ -115,7 +100,7 @@ class ItemsScreen extends StatelessWidget {
       content = Expanded(
         child: ListView.builder(
             itemCount: availableItems.length,
-            itemBuilder: (context, index) => Item_card(
+            itemBuilder: (context, index) => ItemCard(
                   item: availableItems[index],
                   onSelectItem: (item) {
                     selectMeal(context, item);
@@ -124,22 +109,22 @@ class ItemsScreen extends StatelessWidget {
       );
     }
 
-    return Scaffold(
+    return AppScaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(130), child: itemFilterAppBar),
         body: Column(
           children: [
             Container(
-              margin: const EdgeInsets.only(left: 15.0, right: 15, bottom: 20),
+              margin: EdgeInsets.only(left: 15.0.w, right: 15.w, bottom: 20.w),
               child: SimpleSearchBar(),
             ),
             const SizedBox(
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ItemsFilter(availableItems:  availableItems),
+              padding:  EdgeInsets.symmetric(horizontal: 20.w),
+              child: ItemsFilter(availableItems: availableItems),
             ),
             const SizedBox(
               height: 25,

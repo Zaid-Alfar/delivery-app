@@ -15,15 +15,15 @@ void main() {
       runApp(
         DevicePreview(
           enabled: !kReleaseMode,
-          builder: (context) =>  DeleveryApp(), // Wrap your app
+          builder: (context) =>  DeliveryApp(), // Wrap your app
         ),
       );
     },
   );
 }
 
-class DeleveryApp extends StatelessWidget {
-   DeleveryApp({super.key});
+class DeliveryApp extends StatelessWidget {
+   DeliveryApp({super.key});
 
   final AppRouter _appRouter = AppRouter();
 

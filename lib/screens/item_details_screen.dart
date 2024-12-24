@@ -5,6 +5,7 @@ import 'package:delivery_app/models/items.dart';
 import 'package:delivery_app/widgets/carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()
 class ItemDetailsScreen extends StatelessWidget {

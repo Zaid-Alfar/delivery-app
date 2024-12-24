@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SimpleSearchBar extends StatefulWidget {
-  @override
-  State<SimpleSearchBar> createState() => _SimpleSearchBarState();
-}
-
-class _SimpleSearchBarState extends State<SimpleSearchBar> {
-  TextEditingController _controller = TextEditingController();
+class SimpleSearchBar extends StatelessWidget {
+  SimpleSearchBar({super.key});
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +12,11 @@ class _SimpleSearchBarState extends State<SimpleSearchBar> {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-
-        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12.w),
         hintStyle: TextStyle(color: Theme.of(context).colorScheme.secondary),
-        hintText: 'Search', // Shows hint text when the field is empty
-        prefixIcon: Icon(Icons.search,
-            color: Theme.of(context).colorScheme.secondary), // Search icon
+        hintText: 'Search',
+        prefixIcon:
+            Icon(Icons.search, color: Theme.of(context).colorScheme.secondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(
@@ -30,11 +26,8 @@ class _SimpleSearchBarState extends State<SimpleSearchBar> {
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide(
-              color: Theme.of(context)
-                  .colorScheme
-                  .secondary
-                  .withOpacity(0.5), // Set the border color when not focused
-              width: 1, // Border width when not focused
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+              width: 1,
             )),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:delivery_app/widgets/category_grid_item.dart';
 import 'package:delivery_app/widgets/simple_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()
 class CategoriesScreen extends StatelessWidget {
@@ -56,10 +57,10 @@ class CategoriesScreen extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                  padding: const EdgeInsets.all(20), child: SimpleSearchBar()),
+                  padding:  EdgeInsets.all(20.w), child: SimpleSearchBar()),
               Expanded(
                 child: GridView(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(15.w),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.81,

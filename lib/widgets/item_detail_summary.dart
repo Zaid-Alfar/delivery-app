@@ -17,7 +17,7 @@ class ItemDetailSummary extends StatelessWidget {
       bottom: 0,
       right: 0,
       left: 0,
-      height: height * 0.686,
+      height: width>=400 ? height * 0.60 : height* 0.686,
       child: Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -43,15 +43,12 @@ class ItemDetailSummary extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      "${item.price.toStringAsFixed(2)} ",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 32),
-                    ),
+                  Text(
+                    "${item.price.toStringAsFixed(2)} ",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32),
                   ),
                   const SizedBox(
                     height: 12,
@@ -71,15 +68,12 @@ class ItemDetailSummary extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      "~ ${item.weight.round()} ",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.normal,
-                          ),
-                    ),
+                  Text(
+                    "~ ${item.weight.round()} ",
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.normal,
+                        ),
                   ),
                   const SizedBox(
                     height: 12,
@@ -155,21 +149,19 @@ class ItemDetailSummary extends StatelessWidget {
                     TextButton.icon(
                       onPressed: () {},
                       icon: SvgPicture.asset(
-                        Assets.images.shoppingCart, 
+                        Assets.images.shoppingCart,
                       ),
                       label: const Text(
                         "ADD TO CART",
                         style: TextStyle(color: Colors.white),
-                      ), 
+                      ),
                       style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .primary, 
-                        padding: const EdgeInsets.only(right: 20, left: 5),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        padding: EdgeInsets.only(right: 20.w, left: 5.w),
                         fixedSize: Size(width * 0.63, 50),
-                        shape: const RoundedRectangleBorder(
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(10),
+                            Radius.circular(10.r),
                           ),
                         ),
                       ),
