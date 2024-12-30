@@ -1,5 +1,5 @@
 import 'package:delivery_app/gen/assets.gen.dart';
-import 'package:delivery_app/models/items.dart';
+import 'package:delivery_app/core/features/task/data/models/items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +17,7 @@ class ItemDetailSummary extends StatelessWidget {
       bottom: 0,
       right: 0,
       left: 0,
-      height: width>=400 ? height * 0.60 : height* 0.686,
+      height: width >= 400 ? height * 0.60 : height * 0.686,
       child: Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(50)),

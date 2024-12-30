@@ -32,16 +32,14 @@ class CategoriesRoute extends PageRouteInfo<void> {
 /// [ItemDetailsScreen]
 class ItemDetailsRoute extends PageRouteInfo<ItemDetailsRouteArgs> {
   ItemDetailsRoute({
-   key,
+    key,
     required Item item,
-    dynamic re,
     List<PageRouteInfo>? children,
   }) : super(
           ItemDetailsRoute.name,
           args: ItemDetailsRouteArgs(
             key: key,
             item: item,
-            
           ),
           initialChildren: children,
         );
@@ -55,7 +53,6 @@ class ItemDetailsRoute extends PageRouteInfo<ItemDetailsRouteArgs> {
       return ItemDetailsScreen(
         key: args.key,
         item: args.item,
-
       );
     },
   );
@@ -65,18 +62,15 @@ class ItemDetailsRouteArgs {
   const ItemDetailsRouteArgs({
     this.key,
     required this.item,
-    this.re,
   });
 
-  final  key;
+  final key;
 
   final Item item;
 
-  final dynamic re;
-
   @override
   String toString() {
-    return 'ItemDetailsRouteArgs{key: $key, item: $item, re: $re}';
+    return 'ItemDetailsRouteArgs{key: $key, item: $item}';
   }
 }
 
@@ -84,7 +78,7 @@ class ItemDetailsRouteArgs {
 /// [ItemsScreen]
 class ItemsRoute extends PageRouteInfo<ItemsRouteArgs> {
   ItemsRoute({
-   key,
+    key,
     required Category category,
     required List<Item> availableItems,
     String? title,

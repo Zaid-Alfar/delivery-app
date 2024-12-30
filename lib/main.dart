@@ -1,6 +1,6 @@
-import 'package:delivery_app/routes/app_router.dart';
-import 'package:delivery_app/screens/navigation_bar_screen.dart';
-import 'package:delivery_app/theme.dart';
+import 'package:delivery_app/core/routes/app_router.dart';
+import 'package:delivery_app/core/features/task/presentation/screens/navigation_bar_screen.dart';
+import 'package:delivery_app/core/theme/theme.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

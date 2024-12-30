@@ -1,6 +1,7 @@
 part of 'categories_cubit.dart';
 
 
+
 final class CategoriesState {
 
 

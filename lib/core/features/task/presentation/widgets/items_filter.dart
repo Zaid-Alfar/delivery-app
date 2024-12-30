@@ -1,6 +1,6 @@
-import 'package:delivery_app/cubit/filter_cubit.dart';
+import 'package:delivery_app/core/features/task/presentation/cubit/filter_cubit.dart';
 import 'package:delivery_app/gen/assets.gen.dart';
-import 'package:delivery_app/models/items.dart';
+import 'package:delivery_app/core/features/task/data/models/items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';

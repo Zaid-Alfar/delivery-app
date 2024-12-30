@@ -1,6 +1,6 @@
 import 'package:delivery_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
-import 'package:delivery_app/models/items.dart';
+import 'package:delivery_app/core/features/task/data/models/items.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

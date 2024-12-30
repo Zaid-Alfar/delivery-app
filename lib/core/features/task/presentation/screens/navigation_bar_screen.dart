@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:delivery_app/cubit/categories_cubit.dart';
-import 'package:delivery_app/cubit/navigation_cubit.dart';
+import 'package:delivery_app/core/features/task/data/remote/api_client.dart';
+import 'package:delivery_app/core/features/task/presentation/cubit/categories_cubit.dart';
+import 'package:delivery_app/core/features/task/presentation/cubit/navigation_cubit.dart';
 import 'package:delivery_app/gen/assets.gen.dart';
-import 'package:delivery_app/screens/categories_screen.dart';
+import 'package:delivery_app/core/features/task/presentation/screens/categories_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,6 +18,16 @@ class NavigationBarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dio = Dio();
+
+    if (Platform.isAndroid) {
+      dio.options.baseUrl = 'http://10.0.2.2:3000';
+    } else {
+      dio.options.baseUrl = 'http://localhost:3000';
+    }
+
+    final apiClient = ApiClient(dio);
+
     return BlocProvider(
       create: (context) => NavigationCubit(),
       child: Scaffold(

@@ -1,9 +1,9 @@
 import 'dart:io';
+import 'package:delivery_app/core/features/task/data/remote/api_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:delivery_app/models/category.dart';
-import 'package:delivery_app/models/items.dart';
-
+import 'package:delivery_app/core/features/task/data/models/category.dart';
+import 'package:delivery_app/core/features/task/data/models/items.dart';
 part 'categories_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
@@ -70,7 +70,6 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     try {
       final response = await dio.get(url);
 
-
       if (response.statusCode! >= 400) {
         emit(state.copyWith(
           error: "Failed to retrieve data, please try again later.",
@@ -84,22 +83,20 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         return;
       }
 
-
       final List<dynamic> listData = response.data['items'];
 
       final List<Item> loadedItems = listData.map((item) {
         return Item(
-          name: item['name'],
-          price: double.tryParse(item['price'].toString()) ?? 0,
-          unit: item['unit'],
-          weight: double.tryParse(item['weight'].toString()) ?? 0,
-          countryOfOrigin: item['countryOfOrigin'],
-          description: item['description'],
-          imageList: List<String>.from(item['imageList']),
-          image: item['image'],
-          category: List<String>.from(item['category']),
-          stock: item['stock']
-        );
+            name: item['name'],
+            price: double.tryParse(item['price'].toString()) ?? 0,
+            unit: item['unit'],
+            weight: double.tryParse(item['weight'].toString()) ?? 0,
+            countryOfOrigin: item['countryOfOrigin'],
+            description: item['description'],
+            imageList: List<String>.from(item['imageList']),
+            image: item['image'],
+            category: List<String>.from(item['category']),
+            stock: item['stock']);
       }).toList();
 
       emit(state.copyWith(

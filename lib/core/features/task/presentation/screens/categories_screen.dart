@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:delivery_app/cubit/categories_cubit.dart';
-import 'package:delivery_app/models/category.dart';
-import 'package:delivery_app/models/items.dart';
-import 'package:delivery_app/routes/app_router.dart';
-import 'package:delivery_app/widgets/category_grid_item.dart';
-import 'package:delivery_app/widgets/simple_search_bar.dart';
+import 'package:delivery_app/core/features/task/presentation/cubit/categories_cubit.dart';
+import 'package:delivery_app/core/features/task/data/models/category.dart';
+import 'package:delivery_app/core/features/task/data/models/items.dart';
+import 'package:delivery_app/core/routes/app_router.dart';
+import 'package:delivery_app/core/features/task/presentation/widgets/category_grid_item.dart';
+import 'package:delivery_app/core/features/task/presentation/widgets/simple_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

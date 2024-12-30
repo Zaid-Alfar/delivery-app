@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
-import 'package:delivery_app/cubit/carousel_cubit.dart';
-import 'package:delivery_app/models/items.dart';
-import 'package:delivery_app/widgets/carousel.dart';
+import 'package:delivery_app/core/features/task/presentation/cubit/carousel_cubit.dart';
+import 'package:delivery_app/core/features/task/data/models/items.dart';
+import 'package:delivery_app/core/features/task/presentation/widgets/carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
